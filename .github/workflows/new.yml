@@ -1,10 +1,11 @@
-name: First-workflow
+name: My first workflow
 on: workflow_dispatch
 jobs:
-  first_job:
-    runs-on: ubuntu-slim
-    steps:
-      - name: print hello
-        run: echo "Hello"
-      - name: bye
-        run: echo "Bye"
+  first_job: ubuntu-latest
+  steps:
+    - name: Welcome message
+      run: echo "My First Github Actions"
+    - name: List files
+      run: ls
+    - name: Read file
+      run: cat README.md

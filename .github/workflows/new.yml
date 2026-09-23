@@ -1,8 +1,9 @@
 name: My first workflow
 on: workflow_dispatch
 jobs:
-  first_job: ubuntu-latest
-  steps:
+  first_job:
+    runs-on: ubuntu-latest
+    steps:
     - name: Welcome message
       run: echo "My First Github Actions"
     - name: List files

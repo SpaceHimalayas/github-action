@@ -1,9 +1,11 @@
 name: My first workflow
-on: workflow_dispatch
+on: push
 jobs:
   first_job:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout Repo
+      uses: actions/checkout@v7
     - name: Welcome message
       run: echo "My First Github Actions"
     - name: List files

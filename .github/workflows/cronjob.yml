@@ -1,0 +1,32 @@
+name: Variables and secrets
+on:
+  workflow_dispatch: 
+ # schedule:
+ #   - cron: '*/1 * * * *'
+env:
+  CONTAINER_REGISTRY: docker.io
+  # DOCKER_USERNAME: siddharth1 create a environmental secret in github
+  IMAGE_NAME: github-actions-ngnix
+jobs:
+    docker:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Docker build
+          # ${{ vars.DOCKER_USERNAME }} a  repository variable created
+          run: echo docker build -t ${{ env.CONTAINER_REGISTRY }}/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME:latest
+        - name: Docker login
+          env:
+            DOCKER_PASSWORD: s3cUrePaSsw0rd
+          run: echo docker login --username=${{ vars.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
+        - name: Docker publish
+          run: echo docker push $CONTAINER_REGISTRY/${{ vars.DOCKER_USERNAME }}/$IMAGE_NAME:latest
+    deploy:
+      env:
+        CONTAINER_REGISTRY: docker.io
+        DOCKER_USERNAME: siddharth1
+        IMAGE_NAME: github-actions-ngnix
+      needs: docker
+      runs-on: ubuntu-latest
+      steps:
+        - name: Docker run
+          run: docker run -d -p 8080:80 $CONTAINER_REGISTRY/$DOCKER_USERNAME/$IMAGE_NAME:latest        
